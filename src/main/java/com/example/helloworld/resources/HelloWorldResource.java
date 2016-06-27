@@ -48,20 +48,20 @@ public class HelloWorldResource {
     @PermitAll
     @Path("/hello")
     public Response sayHello(@QueryParam("token") String token) {
-        if (token == null)
+        /*if (token == null)
         {
             return Response.status(403).build();
-        }
+        }*/
 
-        if (validateJwt(key, token))
-        {
+        //if (validateJwt(key, token))
+        //{
             final String value = String.format(template, defaultName);
             return Response.ok(new Saying(counter.incrementAndGet(), value), MediaType.APPLICATION_JSON).build();
-        }
+        /*}
         else
         {
             return Response.status(403).build();
-        }
+        }*/
     }
 
 }

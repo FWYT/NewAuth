@@ -14,6 +14,12 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import com.example.helloworld.resources.HelloWorldResource;
 import com.example.helloworld.health.TemplateHealthCheck;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.Factory;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jwt.consumer.JwtConsumer;
@@ -39,6 +45,26 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     @Override
     public void run(HelloWorldConfiguration configuration,
                     Environment environment) {
+
+        //shiro
+        Factory<SecurityManager> factory = new IniSecurityManagerFactory("shiro.ini");
+        SecurityManager sM = factory.getInstance();
+        SecurityUtils.setSecurityManager(sM);
+
+        //Subject user = SecurityUtils.getSubject();
+        //System.out.println("\n\n\nUser is authenticated: " + user.isAuthenticated());
+
+
+
+        /*UsernamePasswordToken token = new UsernamePasswordToken("cn=Frances Tso,cn=user,ou=users,dc=test,dc=com","Ft123456");
+        user.login(token);
+        System.out.println("User is authenticated: " + user.getPrincipal() + " " + user.isAuthenticated() + "\n");
+
+        UsernamePasswordToken token2 = new UsernamePasswordToken("cn=Me Me,cn=admin,ou=users,dc=test,dc=com","ft123456");
+        Subject user2 = SecurityUtils.getSubject();
+        user2.login(token2);
+        System.out.println("User2 is authenticated: " + user2.getPrincipal() + " " + user2.isAuthenticated() + "\n");*/
+
         key = JwtClaim.generateKey();
 
         environment.jersey().register(new AuthDynamicFeature(getAuthFilter()));

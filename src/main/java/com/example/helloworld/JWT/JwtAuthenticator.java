@@ -9,6 +9,7 @@ import com.example.helloworld.JWT.JwtAuthFilter;
 
 import io.dropwizard.auth.Authenticator;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.jose4j.jwt.MalformedClaimException;
 import org.jose4j.jwt.consumer.JwtConsumer;
@@ -44,6 +45,7 @@ public class JwtAuthenticator implements Authenticator<JwtContext, User>{
             final Subject securitySubject = SecurityUtils.getSubject();
             final String subject = context.getJwtClaims().getSubject();
             final JwtAuthenticationToken token = new JwtAuthenticationToken(subject, context.getJwt());
+
             securitySubject.login(token);
             if (log.isDebugEnabled()) {
                 final String message = "Authenticating with subject [" + subject + "]";

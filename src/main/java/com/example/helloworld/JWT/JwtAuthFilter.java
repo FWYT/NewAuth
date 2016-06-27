@@ -47,7 +47,13 @@ public class JwtAuthFilter<P extends Principal> extends AuthFilter<JwtContext, P
 
     //@Override
     public void filter(final ContainerRequestContext requestContext) throws IOException {
+        System.out.println("\n");
+        System.out.println("FILTER");
+
         final Optional<String> optionalToken = getTokenFromCookieOrHeader(requestContext);
+        System.out.println("\n");
+        System.out.println("Token: " + optionalToken);
+        System.out.println("\n");
 
         if (optionalToken.isPresent()) {
             try {
